@@ -12,6 +12,8 @@ namespace Web.Testing.Data
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
+        public ApplicationContext() { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Question>().Property(q => q.QuestionType)

@@ -19,7 +19,6 @@ namespace Web.Testing.Models
         /// <summary>
         /// Тип вопроса
         /// </summary>
-        [Column("")]
         public QuestionType QuestionType { get; set; }
         /// <summary>
         /// Id теста
