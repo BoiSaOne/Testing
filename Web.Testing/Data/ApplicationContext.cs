@@ -9,6 +9,7 @@ namespace Web.Testing.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Test> Tests { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 

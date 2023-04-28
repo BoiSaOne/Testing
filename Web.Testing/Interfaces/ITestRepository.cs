@@ -1,6 +1,6 @@
 ﻿using Web.Testing.Models;
 
-namespace Web.Testing.Repository
+namespace Web.Testing.Interfaces
 {
     public interface ITestRepository
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Web.Testing.Data;
+using Web.Testing.Interfaces;
 
 namespace Web.Testing.Repository
 {

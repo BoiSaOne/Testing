@@ -1,4 +1,4 @@
-﻿namespace Web.Testing.Repository
+﻿namespace Web.Testing.Interfaces
 {
     public interface ICategoryRepository
     {

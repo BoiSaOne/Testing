@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.Testing.Repository;
+using Web.Testing.Interfaces;
 
 namespace Web.Testing.Components
 {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Web.Testing.Data;
+using Web.Testing.Interfaces;
 using Web.Testing.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,13 +18,14 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
         ValidAudience = AuthOptions.AUDIENCE,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-        ValidateLifetime = true,
+        ValidateLifetime = true
     };
 });
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 var app = builder.Build();
 
