@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Web.Testing.Interfaces;
 using Web.Testing.ViewModels;
 
@@ -19,9 +22,23 @@ namespace Web.Testing.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(UserViewModel userViewModel, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-            return RedirectToAction(returnUrl);
+
+            if (!ModelState.IsValid)
+            {
+                return View(loginViewModel);
+            }
+
+            var result = await _repository.LoginAsync(loginViewModel);
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.MessageError!);
+                return View(loginViewModel);
+            }
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(result.Data!));
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()
@@ -32,13 +49,26 @@ namespace Web.Testing.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(registerViewModel);
+            }
+
             var result = await _repository.RegisterAsync(registerViewModel);
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.MessageError!);
+                return View(registerViewModel);
+            }
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(result.Data!));
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return RedirectToAction(nameof(Login));
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

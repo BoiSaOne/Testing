@@ -1,0 +1,21 @@
+﻿@model RegisterViewModel
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="Login">
+        <label asp-for="Login">Логин</label>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="Email" type="email">
+        <label asp-for="Email">Адрес эл. почты</label>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="Password" type="password">
+        <label asp-for="Password">Пароль</label>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="PasswordConfirm" type="password">
+        <label asp-for="PasswordConfirm">Подтверждение пароля</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+</form>

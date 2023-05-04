@@ -1,8 +1,13 @@
-﻿@model UserViewModel
-<form>
-    <label asp-for="Login">Логин</label>
-    <input asp-for="Login" />
-    <label asp-for="Password">Пароль</label>
-    <input asp-for="Password" />
-    <button></button>
+﻿@model LoginViewModel
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="Login">
+        <label asp-for="Login">Логин</label>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" asp-for="Password" type="password">
+        <label asp-for="Password">Пароль</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
 </form>

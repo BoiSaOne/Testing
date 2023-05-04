@@ -19,6 +19,7 @@ namespace Web.Testing.Data
         {
             modelBuilder.Entity<Question>().Property(q => q.QuestionType)
                 .HasConversion<string>().HasMaxLength(100);
+            modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>().HasMaxLength(100);
         }
 
     }

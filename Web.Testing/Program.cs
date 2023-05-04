@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Web.Testing.Data;
@@ -8,19 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Ошибка подключения к базе данных");
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+    options =>
     {
-        ValidateIssuer = true,
-        ValidIssuer = AuthOptions.ISSUER,
-        ValidateAudience = true,
-        ValidAudience = AuthOptions.AUDIENCE,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-        ValidateLifetime = true
-    };
-});
+        options.LoginPath = new PathString("/Auth/Login");
+    });
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
@@ -28,6 +21,11 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    SeedData.Initialize(scope.ServiceProvider);
+}
 
 if (!app.Environment.IsDevelopment())
 {
